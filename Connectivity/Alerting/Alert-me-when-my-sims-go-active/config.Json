@@ -1,7 +1,7 @@
 {
-    "CLIENT_ID":"Korewireless-client-Sandbox-kty9rjid1",
-    "CLIENT_SECRET":"client-secret-Sandbox-kty9rjif1",
-    "API_KEY":"KtZDw43v0m688A7m40NtA6Ztn1HWZVhr5XFz6Kqt",
-    "CPRO_BASEURL":"https://sandbox-dev.api.korewireless.com/connectivity",
-    "TOKEN_URL":"https://dev.api.korewireless.com/Api/api/token"
+    "CLIENT_ID":"<<YOUR CLIENT_ID>>",
+    "CLIENT_SECRET":"<<YOUR CLIENT_SECRET>>",
+    "API_KEY":"<<YOUR API_KEY>>",
+    "CPRO_BASEURL":"<<BASE_URL according to API SERVER",
+    "TOKEN_URL":"https://api.korewireless.com/Api/api/token"
 }
