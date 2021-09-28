@@ -1,0 +1,14 @@
+{
+  "name": "connectivity-sample",
+  "version": "1.0.0",
+  "description": "Sample application for connectivity endpoints",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.4"
+  }
+}
