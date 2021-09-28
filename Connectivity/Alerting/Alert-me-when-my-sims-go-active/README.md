@@ -40,7 +40,7 @@ Navigate to code directory and run the following command to install the necessar
    CLIENT_ID:"<<YOUR CLIENT_ID>>"
    CLIENT_SECRET:"<<YOUR CLIENT_SECRET>>"
    API_KEY:"<<YOUR API_KEY>>"
-   CPRO_BASEURL:"<<BASE_URL according to API SERVER"
+   CPRO_BASEURL:"<<BASE_URL according to API SERVER>>"
    ```
 #### CPRO_BASEURL Possible Values
 ```sh
