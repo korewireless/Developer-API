@@ -7,7 +7,7 @@ Connectivity APIs use case - Alert me when my sims go active
 
 <a name="Configuration options"></a>
 
-## Options supported (Required)
+## Options Supported (Required)
 - CLIENT_ID      - client id obtained when creating a new client
 - CLIENT_SECRET  - client secret corresponding to client 
 - API_KEY        - api key corresponding to client
@@ -50,23 +50,47 @@ https://sandbox.api.korewireless.com/connectivity - Sandbox
 
 After Successful installation of dependencies run the following command to start off the application
    ```sh
-   node index.js
+   npm start
    ```
-
+Please choose the appropriate operation from the prompt
+```sh
+What operation do you want to perform ? Please select 1 ,2 or 3
+1.Create a new rule
+2.List all rules
+3.Modify a rule
+```
+Please enter your rule-id in the next step in case of Modify a Rule
+```sh
+Please enter your rule-id :
+```
 ### Node Dependencies Used
 The Node packages required for the project are:
 
-1. Axios (https://www.npmjs.com/package/axios)
+1. axios (https://www.npmjs.com/package/axios)
+2. prompt (https://www.npmjs.com/package/prompt)
+3. csv-parser (https://www.npmjs.com/package/csv-parser)
+4. colors (https://www.npmjs.com/package/colors)
+5. fs (https://nodejs.org/api/fs.html)
+6. util (https://nodejs.org/api/util.html)
 
 Dependencies needed for Node projects are typically listed in a file called package.json
 
 
-## API Work flow
+## API Work Flow
 
 - Step 1: Obtain the access_token
-- Step 2: Get the account-id
-- Step 3: Get the subscription-id based on the ICCID
-- Step 4: Build a rule for ready to active
+- Step 2: Get the account-id (Assuming  we'll grab the first account from the accounts list  in case the user has parent/child)
+- Step 3: Get the subscription-ids based on the ICCIDs from data.csv file placed in the root directory
+
+#### Sample data.csv
+```sh
+999XXXX25010000XXXX
+999XXXX25010000XXXX
+999XXXX25010000XXXX
+999XXXX25010000XXXX
+999XXXX25010000XXXX
+```
+- Step 4: Build a rule for Stock to Active
 #### Sample Event:
  ```JSON
 {
@@ -86,8 +110,8 @@ Dependencies needed for Node projects are typically listed in a file called pack
             },
             {
                 "attribute-name": "subscription-id",
-                "condition-operator": "==",
-                "attribute-value": "cmp-XX-subscription-250XXXX" // Replace with your desired subscription id if required
+                "condition-operator": "in",
+                "attribute-value": "cmp-xx-subscription-160xxxx,cmp-xx-subscription-160xxxx,cmp-xx-subscription-250xxxx" // Replace with your desired subscription id if required
             },
         ],
         "actions": {
@@ -99,7 +123,7 @@ Dependencies needed for Node projects are typically listed in a file called pack
 ```
 - Step 5: Listen to the notifications by leveraging a cloud listener (eg: https://requestcatcher.com/)
 
-#### Sample alert
+#### Sample Alert
 ```JSON
 {
     "alert-id": 17,
@@ -152,4 +176,71 @@ Dependencies needed for Node projects are typically listed in a file called pack
         }
     }
    ```
+- Step 7: List all Rules for a particular account-id
+
+#### Sample Response
+```JS
+Rules list :  {
+  'account-id': 'cmp-pp-org-310',
+  rules: [
+    {
+      'rule-id': '1',
+      'rule-name': 'Request Status Change - Rule Sanbox',
+      'event-name': 'connectivity.provisioning.request.status.changed',
+      enabled: true,
+      'date-added': '2021-08-13T20:35:35',
+      'date-updated': '2021-08-13T20:35:35',
+      conditions: [
+        {
+          'attribute-value': 'PlanChange',
+          'condition-operator': '!=',
+          'attribute-name': 'request-type'
+        }
+      ],
+      actions: {
+        webhook: {
+          'webhook-url': 'https://my-listener.com/listen/',
+          'access-token': ''
+        },
+        email: '',
+        'block-usage': ''
+      }
+    },
+    {
+      'rule-id': '2',
+      'rule-name': 'Stock to Active State Change Rule',
+      'event-name': 'connectivity.subscription.state.changed',
+      enabled: true,
+      'date-added': '2021-09-29T07:33:21',
+      'date-updated': '2021-09-29T07:33:21',
+      conditions: [
+        {
+          'attribute-value': 'Stock',
+          'condition-operator': '==',
+          'attribute-name': 'old-state'
+        },
+        {
+          'attribute-value': 'Active',
+          'condition-operator': '==',
+          'attribute-name': 'new-state'
+        },
+        {
+          'attribute-value': 'cmp-k1-subscription-2500XXXX, cmp-k1-subscription-1600XXXX',
+          'condition-operator': 'in',
+          'attribute-name': 'subscription-id'
+        }
+      ],
+      actions: {
+        webhook: {
+          'webhook-url': 'https://my-listener.com/listen',
+          'access-token': ''
+        },
+        email: '',
+        'block-usage': ''
+      }
+    }
+    .....
+  ]
+}
+```
 
