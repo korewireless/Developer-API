@@ -1,93 +1,108 @@
-# Event/Rules Example - Activate a Sim
+# Provisioning Example - Activate my sim
 
-Connectivity APIs use case - Activate a Sim
+Connectivity APIs use case - Activate my sim
 
 ### API Home Page
-
-https://developer.korewireless.com/api?product=Connectivity#overview
+ https://developer.korewireless.com/api?product=Connectivity#overview
 
 <a name="Configuration options"></a>
 
 ## Options Supported (Required)
+- client_id      - client id obtained when creating a new client
+- client_secret  - client secret corresponding to client 
+- api_gateway_key  - api key corresponding to client
+- api_base_path   - base URL can be configured according to Sandbox/Production environment
+- auth_token_get_url      - URL to obtain access_token (https://api.korewireless.com/Api/api/token)
 
-- CLIENT_ID - client id obtained when creating a new client
-- CLIENT_SECRET - client secret corresponding to client
-- API_KEY - api key corresponding to client
-- CPRO_BASEURL - base URL can be configured according to Sandbox/Production environment
-- TOKEN_URL - URL to obtain access_token (https://api.korewireless.com/Api/api/token)
 
 ## Prerequisites
 
-1. Stable version of Node.js
-2. Stable version of NPM( Node Package Manager)
+1. Stable version of Python
+2. Stable version of pip( Python Package Manager)
 
-Please refer to https://nodejs.org/en/download/ for more details
+Please refer to https://www.python.org/ for more details
 
 ## Installation
-
-Navigate to code directory and run the following command to install the necessary dependencies
+Navigate to code directory and run the following command to install the necessary  dependencies
 
 1. Get client-id, client-secret and API Key from [https://developer.korewireless.com](https://developer.korewireless.com)
 2. Clone the repo
    ```sh
    git clone https://github.com/korewireless/Developer-API.git
    ```
-3. Install NPM packages
-   ```sh
-   cd Connectivity/Alerting/Alert-me-when-my-sims-go-active 000000000000000000000000
-   npm install
-   ```
-4. Enter your credentials in `config.json`
+3. Replace your credentials in corresponding fields
    ```JSON
-   CLIENT_ID:"<<YOUR CLIENT_ID>>"
-   CLIENT_SECRET:"<<YOUR CLIENT_SECRET>>"
-   API_KEY:"<<YOUR API_KEY>>"
-   CPRO_BASEURL:"<<BASE_URL according to API SERVER>>"
+   client_id:"<<YOUR CLIENT_ID>>"
+   client_secret:"<<YOUR CLIENT_SECRET>>"
+   api_gateway_key:"<<YOUR API_KEY>>"
+   api_base_path:"<<BASE_URL according to API SERVER>>"
+   auth_token_get_url:"<<AUTH_URL according to API Environment>>"
    ```
-
-#### CPRO_BASEURL Possible Values
-
+#### api_base_path Possible Values
 ```sh
 https://api.korewireless.com/connectivity - Production
 https://sandbox.api.korewireless.com/connectivity - Sandbox
 ```
 
-After Successful installation of dependencies run the following command to start off the application
+After Successful replacement of credentials navigate to root folder and run the following command to start off the application
+   ```sh
+   python activate_sim.py
+   ```
+### Python Dependencies Used
+The Python packages required for the project are:
 
-```sh
-npm start
-```
+1. distutils (https://docs.python.org/3/library/distutils.html)
+2. requests (https://docs.python-requests.org/en/latest/)
+3. json (https://docs.python.org/3/library/json.html)
+4. time (https://docs.python.org/3/library/time.html)
 
-Please choose the appropriate operation from the prompt
-
-```sh
-What operation do you want to perform ? Please select 1 ,2 or 3
-1.Create a new rule
-2.List all rules
-3.Modify a rule
-```
-
-Please enter your rule-id in the next step in case of Modify a Rule
-
-```sh
-Please enter your rule-id :
-```
-
-### Node Dependencies Used
-
-The Node packages required for the project are:
-
-1. axios (https://www.npmjs.com/package/axios)
-2. prompt (https://www.npmjs.com/package/prompt)
-3. csv-parser (https://www.npmjs.com/package/csv-parser)
-4. colors (https://www.npmjs.com/package/colors)
-5. fs (https://nodejs.org/api/fs.html)
-6. util (https://nodejs.org/api/util.html)
-
-Dependencies needed for Node projects are typically listed in a file called package.json
 
 ## API Work Flow
 
 - Step 1: Obtain the access_token
-- Step 2: Get the account-id (Assuming we'll grab the first account from the accounts list in case the user has parent/child)
-- Step 3: Get the subscription-ids based on the ICCIDs from data.csv file placed in the root directory
+- Step 2: Get all subscriptions based on account-id
+- Step 3: Create a provisioning request using the first subscription-id obtained in the previous call along with desired request body
+
+#### Sample request body schema
+```sh
+{
+    "activate": {
+        "subscriptions": [
+            {
+                "subscription-id": "string",
+                "imei": "string"
+            }
+        ],
+        "activation-state": "active",
+        "activation-profile-id": "string",
+        "sku": "string"
+    }
+}
+```
+
+#### Sample response schema
+```sh
+{
+    "status": "string",
+    "data": {
+        "provisioning-request-id": "string",
+        "message": "string"
+    }
+}
+```
+- Step 4: Check for the provisioning request status by using the provisioning-request-id obtained from the create provisioning request call
+#### Response schema
+ ```JSON
+{
+    "request-type": {
+        "subscriptions": [
+            {
+                "subscription-id": "string",
+                "completion-status": "string"
+            }
+        ],
+        "status": "submitted",
+        "activation-profile-id": "string"
+    }
+}
+```

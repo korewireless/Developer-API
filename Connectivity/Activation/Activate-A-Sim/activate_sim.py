@@ -6,15 +6,15 @@ import time
 # Global variables with values to be replaced for each customer
 # Change values accordingly
 auth_token_get_url = "https://api.korewireless.com/Api/api/token"
-api_gateway_key = "E199Nvq8s49fYx44X9hnr1a2UsJfJG3RYkr8GdVb"
-client_id = "Korewireless-client-Sandbox-kybs48f41"
-clinet_secret = "client-secret-Sandbox-kybs48f61"
+client_id:"<<YOUR CLIENT_ID>>"
+client_secret:"<<YOUR CLIENT_SECRET>>"
+api_gateway_key:"<<YOUR API_KEY>>"
 api_base_path = "https://sandbox.api.korewireless.com/connectivity"
 
 #API Parameters
-accountid='cmp-pp-org-310'
-iccid='9999990250100000079'
-activationprofileid="cmp-prov-ap-111"
+accountid='cmp-pp-org-xxx'
+iccid='999XXXX25010000XXXX'
+activationprofileid="cmp-prov-ap-xxx"
 
 
 # =======================================================================================
@@ -30,7 +30,7 @@ def getauthtoken():
         data = {
             'grant_type': 'client_credentials',
             'client_id': client_id,
-            'client_secret': clinet_secret
+            'client_secret': client-secret
         }
         # Raise the request for getting the Authentication token
         response = requests.post(auth_token_get_url, headers=headers, data=data)
