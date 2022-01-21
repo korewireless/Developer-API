@@ -22,8 +22,7 @@ Connectivity APIs use case - Activate my sim
 
 Please refer to https://www.python.org/ for more details
 
-## Installation
-Navigate to code directory and run the following command to install the necessary  dependencies
+## Configuration
 
 1. Get client-id, client-secret and API Key from [https://developer.korewireless.com](https://developer.korewireless.com)
 2. Clone the repo
