@@ -59,8 +59,8 @@ The Python packages required for the project are:
 ## API Work Flow
 
 - Step 1: Obtain the access_token
-- Step 2: Get all subscriptions based on account-id
-- Step 3: Create a provisioning request using the first subscription-id obtained in the previous call along with desired request body
+- Step 2: Get subscription-id based on account-id and iccid
+- Step 3: Create a provisioning request using the subscription-id obtained in the previous call along with desired request body
 
 #### Sample request body schema
 ```sh

@@ -30,7 +30,7 @@ def getauthtoken():
         data = {
             'grant_type': 'client_credentials',
             'client_id': client_id,
-            'client_secret': client-secret
+            'client_secret': client_secret
         }
         # Raise the request for getting the Authentication token
         response = requests.post(auth_token_get_url, headers=headers, data=data)
