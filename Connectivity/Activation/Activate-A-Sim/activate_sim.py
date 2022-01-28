@@ -9,7 +9,7 @@ auth_token_get_url = "https://api.korewireless.com/Api/api/token"
 client_id:"<<YOUR CLIENT_ID>>"
 client_secret:"<<YOUR CLIENT_SECRET>>"
 api_gateway_key:"<<YOUR API_KEY>>"
-api_base_path = "https://sandbox.api.korewireless.com/connectivity"
+api_base_path = "https://api.korewireless.com/connectivity"
 
 #API Parameters
 accountid='cmp-pp-org-xxx'
