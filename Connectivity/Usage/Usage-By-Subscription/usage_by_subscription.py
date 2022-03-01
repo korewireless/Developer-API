@@ -37,7 +37,7 @@ def getauthtoken():
     return responseJson["access_token"]
 
 # =======================================================================================
-#                               Get Scbscription id of the accounts
+#                               Get Subscription id of the accounts
 # ======================================================================================
 def getSubscriptions(aceesstoken,accountid,pageindex):
     headers = {
