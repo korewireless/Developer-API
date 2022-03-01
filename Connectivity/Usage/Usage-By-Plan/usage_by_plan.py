@@ -6,9 +6,9 @@ import time
 # Global variables with values to be replaced for each customer
 # Change values accordingly
 auth_token_get_url = "https://api.korewireless.com/Api/api/token"
-client_id:"<<YOUR CLIENT_ID>>"
-client_secret:"<<YOUR CLIENT_SECRET>>"
-api_gateway_key:"<<YOUR API_KEY>>"
+client_id="<<YOUR CLIENT_ID>>"
+client_secret="<<YOUR CLIENT_SECRET>>"
+api_gateway_key="<<YOUR API_KEY>>"
 api_base_path = "https://api.korewireless.com/connectivity"
 
 #API Parameters
@@ -54,7 +54,7 @@ def getEligiblePLans(aceesstoken,accountid):
         raise Exception("HTTP Exception {statuscode}: message{message}".format(planlistResponse.status_code,planlistResponse.raise_for_status()))
 
 # =======================================================================================
-#                               Get Usage by PlanId
+#                               Get Usage by Plan Id 
 # =======================================================================================
 def getUsageByPlanId(aceesstoken,planid):
     headers = {
@@ -85,7 +85,7 @@ def getUsageByPlanId(aceesstoken,planid):
 try:
     # Get the API Token
     accesstoken=getauthtoken()
-    #Get the all eligible Plan Ids
+    #Get all eligible Plan Ids
     eligiblePLansJson=getEligiblePLans(accesstoken,accountid)
     SleepCount=0
     if(len(eligiblePLansJson["plans"])>0):
@@ -93,7 +93,7 @@ try:
         for plan in eligiblePLansJson["plans"]:
             getUsageByPlanId(accesstoken,plan["plan"]["plan-id"])
             SleepCount=SleepCount+1
-            #Added a sleep so that server will not reject continues request assuming this as a DOS attack
+            #Added a sleep so that server will not reject continuous request assuming this as a DDOS attack
             if(SleepCount>10):
                 SleepCount=0
                 time.sleep(5)
