@@ -6,9 +6,9 @@ import time
 # Global variables with values to be replaced for each customer
 # Change values accordingly
 auth_token_get_url = "https://api.korewireless.com/Api/api/token"
-client_id:"<<YOUR CLIENT_ID>>"
-client_secret:"<<YOUR CLIENT_SECRET>>"
-api_gateway_key:"<<YOUR API_KEY>>"
+client_id="<<YOUR CLIENT_ID>>"
+client_secret="<<YOUR CLIENT_SECRET>>"
+api_gateway_key="<<YOUR API_KEY>>"
 api_base_path = "https://api.korewireless.com/connectivity"
 
 #API Parameters
