@@ -56,6 +56,7 @@ const formRequest = async (
   try {
     let reqObj = {};
     let subscriptions=[];
+    let statusRes={};
     const eids=eid.split(',');
     for(let eid of eids){
       let subObj={};
@@ -85,14 +86,17 @@ const formRequest = async (
       if(res && res.status==="success" && res.data['esim-profile-switch-request-id']){
         console.log(
           colors.green(
-            'Request successfully placed. Please note the reference Id : ',
+            'Request successfully placed. Please note the reference Id : '          )
+        );
+        console.log(
+          colors.cyan(
             res.data['esim-profile-switch-request-id']
           )
         );
         console.log(colors.yellow('Requesting a status update. Please wait...'));
         let status = true;
         while (status) {
-          const statusRes = await getStatus(res.data['esim-profile-switch-request-id'], accountId);
+          statusRes = await getStatus(res.data['esim-profile-switch-request-id'], accountId);
           if (
             statusRes &&
             statusRes['switch-request-status'] &&
@@ -104,8 +108,7 @@ const formRequest = async (
           await new Promise((resolve) => setTimeout(resolve, 2000));
         }
         if (!status) {
-          console.log('statusRes ', statusRes);
-          console.lof(
+          console.log(
             colors.magenta('Request has been completed successfully :', statusRes)
           );
         }
@@ -144,6 +147,7 @@ const switchProfile = async (email) => {
       `/v1/accounts?email=${email}`,
       {}
     );
+    console.log('getAccounts ',getAccounts);
     // Assuming  we'll grab the first account from the accounts list  in case the user has parent/child
     if (getAccounts && getAccounts.account && getAccounts.account.length > 0) {
       accountId = getAccounts.account[0]['account-id'];
